@@ -95,6 +95,20 @@
 
             <!-- <script src="assets/javascript.js"></script> -->
             <script>
+
+                //On page startup, pull search history array from local storage
+                if (localStorage.getItem("searchhistory")) {
+                    searchHistoryArray = JSON.parse(localStorage.getItem("searchhistory"))
+                }
+                else {
+                    searchHistoryArray = []
+                }
+
+                //On page startup, load the previously searched weather data
+                if (localStorage.getItem("storedHTML")) {
+                    $("#fullinfo").html(localStorage.getItem("storedHTML"))
+                }
+
                 var sampleURL = "http://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78"
                 var cityInputEl = $("#citysearchinput")
                 var citySearchEl = $("#citysearch")
@@ -105,27 +119,24 @@
                 var UVEl = $("#UV")
                 var fiveDayDiv = $("#fivedayrow")
                 var searchButton = $("#searchbutton")
+                var storedHTML = ""
 
-                //On page startup, update search history array and add each array element to the display
-                if (localStorage.getItem("searchhistory")) {
-                    searchHistoryArray = JSON.parse(localStorage.getItem("searchhistory"))
-                }
-                else {
-                    searchHistoryArray = []
-                }
+                //On page startup, display all of the previously searched terms
                 for (i of searchHistoryArray) {
                     var searchItemDiv = $("<div>").text(i).addClass("searchhistoryitem")
                     citySearchEl.append(searchItemDiv)
                 }
 
+
                 //Event listener to activate on a city search, rendering the weather
                 searchButton.click(function(e) {
+                    console.log("search ran")
                     var cityNameInput = cityInputEl.val()
                     //Adding the inputted name into local storage
                     searchHistoryArray.push(cityNameInput)
                     localStorage.setItem("searchhistory", JSON.stringify(searchHistoryArray))
                     //Displaying the searched item to user
-                    var searchItemDiv = $("<div>").text(cityNameInput)
+                    var searchItemDiv = $("<div>").text(cityNameInput).addClass("searchhistoryitem")
                     citySearchEl.append(searchItemDiv)
                     
 
@@ -147,14 +158,6 @@
                         var longitude = response.coord.lon
                         var latitude = response.coord.lat
                         
-                        //UV index AJAX call
-                        var UVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dad65bfed30c91a1b6ddb18a13a78f78&lat=" + latitude + "&lon=" + longitude
-                        $.ajax({
-                        method: "GET",
-                        url: UVURL
-                        }).then(function(response) {
-                            UVEl.text("UV Index: " + response.value)
-                        })
                         
                         //Five day weather AJAX call
                         var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response.name + "&appid=dad65bfed30c91a1b6ddb18a13a78f78&units=imperial"
@@ -208,6 +211,16 @@
                                 textEl.append(tempDiv).append(humidityDiv)
                             }
 
+                            //UV index AJAX call
+                            var UVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dad65bfed30c91a1b6ddb18a13a78f78&lat=" + latitude + "&lon=" + longitude
+                            $.ajax({
+                            method: "GET",
+                            url: UVURL
+                            }).then(function(response) {
+                                UVEl.text("UV Index: " + response.value)
+                                storedHTML = $("#fullinfo").html()
+                                localStorage.setItem("storedHTML", storedHTML)
+                            })
                         })
 
 
