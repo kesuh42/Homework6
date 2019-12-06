@@ -3,19 +3,38 @@
     color: white;
     text-align: center;
     font-size: 32px;
-    padding: 32px;
+    padding: 20px;
+    margin-bottom: 10px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#searchbar {
+    padding: 10px 0px;
+}
+
+.searchhistoryitem {
+    font-size: 20px;
+}
+
 #mainbody {
-    height: 500px;
+    height: calc(100vh - 98px);
 }
 
 #inforow {
     height: 50%;
 }
 
+#cityname {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#cityinfo {
+    font-size: 20px;
+}
+
 #fivedayrow {
+    visibility: hidden;
     height: 50%;
 }
 
