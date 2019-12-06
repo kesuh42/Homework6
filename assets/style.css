@@ -1,0 +1,26 @@
+#header {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 32px;
+    padding: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#mainbody {
+    height: 500px;
+}
+
+#inforow {
+    height: 50%;
+}
+
+#fivedayrow {
+    height: 50%;
+}
+
+.fivedaycard {
+    width: 20%;
+    float: left;
+    margin-top: 20px;
+}

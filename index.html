@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Weather App</title>
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="assets/style.css">
+        </head>
+
+        <body>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12" id="header">Weather Dashboard</div>
+                </div>
+
+                <div class="row" id="mainbody">
+                    <div class="col-4" id="citysearch">
+                        Search for a city:
+                        <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" id="citysearchinput" type="search" placeholder="" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" id="searchbutton" type="submit">Search</button>
+                        </form>
+                    </div>
+
+                    <div class="col-8">
+                        <div class="row" id="inforow">
+                            <div class="col" id="cityinfo">
+                                
+                                <div id="cityname">
+
+                                </div>
+                                <div id="temp">
+
+                                </div>
+                                <div id="humidity">
+                                    
+                                </div>
+                                <div id="UV">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="fivedayrow">
+                            <div class="col" id="fiveday">
+                                <div class="card fivedaycard">
+                                        <h5 class="card-header" id="zerodate">Date</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="zerotitle"></h5>
+                                            <div class="card-text" id="zerotext"></div>
+                                        </div>
+                                    </div>
+                            
+                                <div class="card fivedaycard">
+                                        <h5 class="card-header" id="eightdate">Date</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="eighttitle"></h5>
+                                            <div class="card-text" id="eighttext"></div>
+                                        </div>
+                                    </div>
+
+                                <div class="card fivedaycard">
+                                        <h5 class="card-header" id="sixteendate">Date</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="sixteentitle"></h5>
+                                            <div class="card-text" id="sixteentext"></div>
+                                        </div>
+                                    </div>
+                            
+                                <div class="card fivedaycard">
+                                        <h5 class="card-header" id="twentyfourdate">Date</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="twentyfourtitle"></h5>
+                                            <div class="card-text" id="twentyfourtext"></div>
+                                        </div>
+                                    </div>
+
+                                <div class="card fivedaycard">
+                                        <h5 class="card-header" id="thirtytwodate">Date</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="thirtytwotitle"></h5>
+                                            <div class="card-text" id="thirtytwotext"></div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <script src="assets/javascript.js"></script> -->
+            <script>
+                var sampleURL = "http://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78"
+                var cityInputEl = $("#citysearchinput")
+                var cityNameEl = $("#cityname")
+                var tempEl = $("#temp")
+                var humidityEl = $("#humidity")
+                var UVEl = $("#UV")
+                var searchButton = $("#searchbutton")
+                searchButton.click(function(e) {
+                    var cityNameInput = cityInputEl.val()
+                    var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&APPID=dad65bfed30c91a1b6ddb18a13a78f78"
+                    e.preventDefault()
+                    $.ajax({
+                        method: "GET",
+                        url: weatherURL
+                    }).then(function(response) {
+                        cityNameEl.text(response.name)
+                        tempEl.text(response.main.temp)
+                        humidityEl.text(response.main.humidity)
+
+                        var longitude = response.coord.lon
+                        var latitude = response.coord.lat
+                        
+                        var UVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dad65bfed30c91a1b6ddb18a13a78f78&lat=" + latitude + "&lon=" + longitude
+                        $.ajax({
+                        method: "GET",
+                        url: UVURL
+                        }).then(function(response) {
+                            UVEl.text(response.value)
+                        })
+                        
+                        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response.name + "&appid=dad65bfed30c91a1b6ddb18a13a78f78&units=imperial"
+                        $.ajax({
+                        method: "GET",
+                        url: fiveDayURL
+                        }).then(function(response) {
+                            // sample icon url "http://openweathermap.org/img/wn/01d@2x.png"
+                            console.log(response)
+                            for (i of [0, 8, 16, 24, 32]) {
+                                function numberConverter(x) {
+                                    if (x===0) {
+                                        return "zero"
+                                    }
+
+                                    if (x===8) {
+                                        return "eight"
+                                    }
+
+                                    if (x===16) {
+                                        return "sixteen"
+                                    }
+
+                                    if (x===24) {
+                                        return "twentyfour"
+                                    }
+                                    
+                                    if (x===32) {
+                                        return "thirtytwo"
+                                    }
+                                }
+                                var textIndex = numberConverter(i)
+                                var dateEl = $("#" + textIndex + "date")
+                                var titleEl = $("#" + textIndex + "title")
+                                var textEl = $("#" + textIndex + "text")
+                                var dayObject = response.list[i]
+                                console.log(dayObject)
+
+                                dateEl.text(dayObject.dt_txt)
+
+                                var imgLink = "http://openweathermap.org/img/wn/" + dayObject.weather[0].icon + "@2x.png"
+                                var weatherIcon = $("<img>").attr("src", imgLink)
+                                titleEl.html("")
+                                titleEl.append(weatherIcon)
+                                
+
+                                //I need to convert fucking Kelvin to Farenheit
+                                var tempDiv = $("<div>").text("Temp: " + dayObject.main.temp + "ºF")
+                                var humidityDiv = $("<div>").text("Humidity: " + dayObject.main.humidity + "%")
+                                textEl.html("")
+                                textEl.append(tempDiv).append(humidityDiv)
+                            }
+
+                        })
+
+
+                    })
+                })
+                //working api key dad65bfed30c91a1b6ddb18a13a78f78
+                //sample call http://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78
+
+            </script>
+        </body>
+    </html>
