@@ -109,7 +109,7 @@
                     $("#fullinfo").html(localStorage.getItem("storedHTML"))
                 }
 
-                var sampleURL = "http://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78"
+                var sampleURL = "https://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78"
                 var cityInputEl = $("#citysearchinput")
                 var citySearchEl = $("#citysearch")
                 var cityNameEl = $("#cityname")
@@ -141,7 +141,7 @@
                     
 
                     //AJAX calls
-                    var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&APPID=dad65bfed30c91a1b6ddb18a13a78f78&units=imperial"
+                    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&APPID=dad65bfed30c91a1b6ddb18a13a78f78&units=imperial"
                     e.preventDefault()
 
                     //Basic info AJAX call
@@ -200,7 +200,7 @@
                                 }
                                 dateEl.text(dayAndTimetoDate(dayObject.dt_txt))
 
-                                var imgLink = "http://openweathermap.org/img/wn/" + dayObject.weather[0].icon + "@2x.png"
+                                var imgLink = "https://openweathermap.org/img/wn/" + dayObject.weather[0].icon + "@2x.png"
                                 var weatherIcon = $("<img>").attr("src", imgLink)
                                 titleEl.html("")
                                 titleEl.append(weatherIcon)
@@ -212,7 +212,7 @@
                             }
 
                             //UV index AJAX call
-                            var UVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dad65bfed30c91a1b6ddb18a13a78f78&lat=" + latitude + "&lon=" + longitude
+                            var UVURL = "https://api.openweathermap.org/data/2.5/uvi?appid=dad65bfed30c91a1b6ddb18a13a78f78&lat=" + latitude + "&lon=" + longitude
                             $.ajax({
                             method: "GET",
                             url: UVURL
@@ -227,7 +227,7 @@
                     })
                 })
                 //working api key dad65bfed30c91a1b6ddb18a13a78f78
-                //sample call http://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78
+                //sample call https://api.openweathermap.org/data/2.5/weather?q=Chicago&APPID=dad65bfed30c91a1b6ddb18a13a78f78
 
             </script>
         </body>
